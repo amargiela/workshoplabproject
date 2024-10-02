@@ -14,3 +14,18 @@ public class ArticleProcessor {
         }
         sc.close();
     }
+
+    public String preprocessFile(String filePath) throws FileNotFoundException {
+        StringBuilder processedText = new StringBuilder();
+        Scanner sc = new Scanner(new File(filePath));
+
+        while (sc.hasNext()) {
+            String word = sc.next().toLowerCase().replaceAll("[^a-zA-Z]", "");
+            if (!stopWords.contains(word) && !word.isEmpty()) {
+                processedText.append(word).append(" ");
+            }
+        }
+        sc.close();
+        return processedText.toString();
+    }
+}
