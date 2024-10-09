@@ -10,7 +10,7 @@ public class ArticleProcessor {
         stopWords = new ArrayList<>();
         Scanner sc = new Scanner(new File(stopWordsFilePath));
         while (sc.hasNext()) {
-            stopWords.add(sc.next());
+            stopWords.add(sc.next().toLowerCase());
         }
         sc.close();
     }
@@ -26,6 +26,19 @@ public class ArticleProcessor {
             }
         }
         sc.close();
-        return processedText.toString();
+        return processedText.toString().trim();
+    }
+
+    public static void main(String[] args) {
+        try {
+            ArticleProcessor processor = new ArticleProcessor("/Users/a/Downloads/stopwords.txt");
+
+            String result = processor.preprocessFile("/Users/a/Desktop/article.txt");
+
+            System.out.println(result);
+
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: " + e.getMessage());
+        }
     }
 }
