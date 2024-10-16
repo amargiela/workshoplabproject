@@ -135,7 +135,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-For questions or suggestions, please contact [austinmargiela@gmail.com](mailto:austinmargiela@gmail.com).
+For questions or suggestions, please contact [austinmargiela@gmail.com](mailto:austinmargiela@gmail.com) or [matthewmonasterski@gmail.com](mailto:matthewmonasterski@gmail.com).
 
 ---
 
