@@ -139,4 +139,4 @@ For questions or suggestions, please contact [austinmargiela@gmail.com](mailto:a
 
 ---
 
-**Disclaimer**: This program is intended for educational purposes and may need adjustments to handle specific use cases or larger datasets efficiently.
+**Disclaimer**: This program is intended for educational purposes only.
