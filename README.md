@@ -131,9 +131,9 @@ words: 2
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is not licensed.
 
-## Contact
+## Member Info
 
 For questions or suggestions, please contact [austinmargiela@gmail.com](mailto:austinmargiela@gmail.com) or [matthewmonasterski@gmail.com](mailto:matthewmonasterski@gmail.com).
 
