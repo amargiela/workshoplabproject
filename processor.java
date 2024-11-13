@@ -101,6 +101,46 @@ class ArticleProcessor {
 			System.out.println(wc.word + ": " + wc.count);
 		}
 	}
+	public void mostRepeated(String processedText) {
+
+		List<String> words = new ArrayList<>(Arrays.asList(processedText.split("\\s+")));
+		ArrayList<wordCount> wordCountList = new ArrayList<>();
+
+		for (String word : words) {
+			boolean found = false;
+			// Check if the word is already in the wordCountList
+			for (wordCount wc : wordCountList) {
+				if (wc.word.equals(word)) {
+					wc.count++;
+					found = true;
+					break;
+				}
+			}
+			// If the word is not found, add it to the list
+			if (!found) {
+				wordCountList.add(new wordCount(word, 1));
+			}
+		}
+
+		// Sort the wordCountList by count in descending order using Bubble Sort
+		for (int i = 0; i < wordCountList.size() - 1; i++) {
+			for (int j = 0; j < wordCountList.size() - i - 1; j++) {
+				if (wordCountList.get(j).count < wordCountList.get(j + 1).count) {
+					// Swap wordCountList[j] and wordCountList[j+1]
+					wordCount temp = wordCountList.get(j);
+					wordCountList.set(j, wordCountList.get(j + 1));
+					wordCountList.set(j + 1, temp);
+				}
+			}
+		}
+
+		// Print the top 10 words by frequency
+		System.out.println("Top 10 Most Used Words:");
+		for (int i = 0; i < Math.min(10, wordCountList.size()); i++) {
+			wordCount wc = wordCountList.get(i);
+			System.out.println(wc.word + ": " + wc.count);
+		}
+	}
 
 }
 
