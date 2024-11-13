@@ -1,13 +1,30 @@
-+--------------------------------------------------+
-|               ArticleProcessor                   |
-+--------------------------------------------------+
-| - stopWords: List<String>                        |
-+--------------------------------------------------+
-| + ArticleProcessor(stopWordsFilePath: String)    |
-|    throws FileNotFoundException                  |
-|                                                  |
-| + preprocessFile(filePath: String): void         |
-|    throws FileNotFoundException                  |
-|                                                  |
-| + main(args: String[]): void                     |
-+--------------------------------------------------+
++-------------------------------------------+
+|                ArticleProcessor            |
++-------------------------------------------+
+| - stopWords: List<String>                 |
+| - sentimentLexicon: Map<String, Integer>  |
++-------------------------------------------+
+| + ArticleProcessor(stopWordsFilePath: String, sentimentLexiconFilePath: String) |
+| + preprocessFile(filePath: String): void  |
+| + analyzeArticle(filePath: String): ArticleAnalysis |
+| + compareArticles(filePaths: String[]): void |
+| + main(args: String[]): void              |
++-------------------------------------------+
+
++-------------------------------------------+
+|              ArticleAnalysis              |
++-------------------------------------------+
+| - processedText: String                   |
+| - wordCount: int                          |
+| - sentenceCount: int                      |
+| - words: List<String>                     |
+| - frequencies: List<Integer>              |
+| - sentimentScore: int                     |
+| - vocabRichness: double                   |
++-------------------------------------------+
+| + ArticleAnalysis(processedText: String, wordCount: int, sentenceCount: int,   |
+|     words: List<String>, frequencies: List<Integer>, sentimentScore: int,      |
+|     vocabRichness: double)                                                    |
+| + getVocabRichness(): double              |
+| + displayResults(): void                  |
++-------------------------------------------+
