@@ -106,7 +106,7 @@ public class ArticleProcessor {
             if (analysis.getVocabRichness() > richestVocabArticle.getVocabRichness()) {
                 richestVocabArticle = analysis;
             }
-            System.out.println("Article Analysis:");
+            System.out.println("article analysis:");
             analysis.displayResults();
             System.out.println();
         }
@@ -160,14 +160,13 @@ class ArticleAnalysis {
     }
 
     public void displayResults() {
-        System.out.println("Processed Text: " + processedText);
-        System.out.println("Word Count: " + wordCount);
-        System.out.println("Sentence Count: " + sentenceCount);
-        System.out.println("Vocabulary Richness: " + vocabRichness);
-        System.out.println("Word Frequencies (sorted): ");
+        System.out.println("word count: " + wordCount);
+        System.out.println("sentence count: " + sentenceCount);
+        System.out.println("vocabulary richness: " + vocabRichness);
+        System.out.println("word frequencies (sorted): ");
         for (int i = 0; i < words.size(); i++) {
             System.out.println(words.get(i) + ": " + frequencies.get(i));
         }
-        System.out.println("Sentiment Score: " + sentimentScore);
+        System.out.println("sentiment Score: " + sentimentScore);
     }
 }
