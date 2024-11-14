@@ -171,5 +171,3 @@ This project is not licensed.
 For questions or suggestions, please contact [austinmargiela@gmail.com](mailto:austinmargiela@gmail.com) or [matthewmonasterski@gmail.com](mailto:matthewmonasterski@gmail.com).
 
 ---
-
-**Disclaimer**: This program is intended for educational purposes only.
