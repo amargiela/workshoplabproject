@@ -6,19 +6,18 @@ public class ArticleProcessor {
     private List<String> stopWords;
     private Map<String, Integer> sentimentLexicon;
 
-    // Constructor to load stop words and sentiment lexicon
     public ArticleProcessor(String stopWordsFilePath, String sentimentLexiconFilePath) throws FileNotFoundException {
         stopWords = new ArrayList<>();
         sentimentLexicon = new HashMap<>();
 
-        // Load stop words
+        //  stop words
         Scanner sc = new Scanner(new File(stopWordsFilePath));
         while (sc.hasNext()) {
             stopWords.add(sc.next().toLowerCase());
         }
         sc.close();
 
-        // Load sentiment lexicon
+        //  sentiment lexicon
         sc = new Scanner(new File(sentimentLexiconFilePath));
         while (sc.hasNextLine()) {
             String[] line = sc.nextLine().split(",");
@@ -31,7 +30,7 @@ public class ArticleProcessor {
         sc.close();
     }
 
-    // Analyze a single article
+    // analyze  article
     public ArticleAnalysis analyzeArticle(String filePath) throws FileNotFoundException {
         Set<String> uniqueWords = new HashSet<>();
         List<String> words = new ArrayList<>();
@@ -47,7 +46,7 @@ public class ArticleProcessor {
             String sentence = sc.nextLine();
             String[] wordArray = sentence.toLowerCase().split("\\s+");
 
-            // Count sentences
+            // count sentences
             sentenceCount += sentence.split("[.!?]").length;
             for (String word : wordArray) {
                 word = word.replaceAll("[^a-zA-Z]", "");
@@ -56,7 +55,7 @@ public class ArticleProcessor {
                     uniqueWords.add(word);
                     wordCount++;
 
-                    // Update word frequency
+                    //  word frequency
                     int wordIndex = words.indexOf(word);
                     if (wordIndex != -1) {
                         frequencies.set(wordIndex, frequencies.get(wordIndex) + 1);
@@ -65,7 +64,7 @@ public class ArticleProcessor {
                         frequencies.add(1);
                     }
 
-                    // Add sentiment score if word is in lexicon
+                    //  sentiment score if word is lexicon
                     if (sentimentLexicon.containsKey(word)) {
                         sentimentScore += sentimentLexicon.get(word);
                     }
@@ -74,7 +73,7 @@ public class ArticleProcessor {
         }
         sc.close();
 
-        // Sort word frequencies
+        //  word frequencies
         for (int i = 0; i < frequencies.size(); i++) {
             for (int j = i + 1; j < frequencies.size(); j++) {
                 if (frequencies.get(i) < frequencies.get(j)) {
@@ -93,7 +92,7 @@ public class ArticleProcessor {
         return new ArticleAnalysis(processedText.toString().trim(), wordCount, sentenceCount, words, frequencies, sentimentScore, vocabRichness);
     }
 
-    // Compare multiple articles
+    // multiple articles
     public void compareArticles(String[] filePaths) throws FileNotFoundException {
         List<ArticleAnalysis> analyses = new ArrayList<>();
         for (String filePath : filePaths) {
@@ -114,7 +113,7 @@ public class ArticleProcessor {
         richestVocabArticle.displayResults();
     }
 
-    // Main method with User Interface
+    // method with User Interface
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to the Article Processor!");
@@ -134,7 +133,7 @@ public class ArticleProcessor {
                 System.out.print("Choose an option: ");
 
                 int choice = scanner.nextInt();
-                scanner.nextLine(); // Consume newline
+                scanner.nextLine(); 
 
                 switch (choice) {
                     case 1:
@@ -179,7 +178,7 @@ public class ArticleProcessor {
     }
 }
 
-// Class to store and display analysis results
+//  store and display analysis results
 class ArticleAnalysis {
     private String processedText;
     private int wordCount;
