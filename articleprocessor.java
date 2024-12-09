@@ -1,23 +1,24 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
+
 public class ArticleProcessor {
     private List<String> stopWords;
     private Map<String, Integer> sentimentLexicon;
 
-    // constructor to load stop words and the sentiment
+    // Constructor to load stop words and sentiment lexicon
     public ArticleProcessor(String stopWordsFilePath, String sentimentLexiconFilePath) throws FileNotFoundException {
         stopWords = new ArrayList<>();
         sentimentLexicon = new HashMap<>();
 
-        // stop words load
+        // Load stop words
         Scanner sc = new Scanner(new File(stopWordsFilePath));
         while (sc.hasNext()) {
             stopWords.add(sc.next().toLowerCase());
         }
         sc.close();
 
-        // sentiment load
+        // Load sentiment lexicon
         sc = new Scanner(new File(sentimentLexiconFilePath));
         while (sc.hasNextLine()) {
             String[] line = sc.nextLine().split(",");
@@ -29,7 +30,8 @@ public class ArticleProcessor {
         }
         sc.close();
     }
-    // method to process an article and return its analysis result
+
+    // Analyze a single article
     public ArticleAnalysis analyzeArticle(String filePath) throws FileNotFoundException {
         Set<String> uniqueWords = new HashSet<>();
         List<String> words = new ArrayList<>();
@@ -45,7 +47,7 @@ public class ArticleProcessor {
             String sentence = sc.nextLine();
             String[] wordArray = sentence.toLowerCase().split("\\s+");
 
-            // count sentences
+            // Count sentences
             sentenceCount += sentence.split("[.!?]").length;
             for (String word : wordArray) {
                 word = word.replaceAll("[^a-zA-Z]", "");
@@ -54,7 +56,7 @@ public class ArticleProcessor {
                     uniqueWords.add(word);
                     wordCount++;
 
-                    // word count frequency
+                    // Update word frequency
                     int wordIndex = words.indexOf(word);
                     if (wordIndex != -1) {
                         frequencies.set(wordIndex, frequencies.get(wordIndex) + 1);
@@ -63,7 +65,7 @@ public class ArticleProcessor {
                         frequencies.add(1);
                     }
 
-                    // add sentiment score if word is in lexicon
+                    // Add sentiment score if word is in lexicon
                     if (sentimentLexicon.containsKey(word)) {
                         sentimentScore += sentimentLexicon.get(word);
                     }
@@ -72,7 +74,7 @@ public class ArticleProcessor {
         }
         sc.close();
 
-        // sort the word frequencies
+        // Sort word frequencies
         for (int i = 0; i < frequencies.size(); i++) {
             for (int j = i + 1; j < frequencies.size(); j++) {
                 if (frequencies.get(i) < frequencies.get(j)) {
@@ -87,55 +89,97 @@ public class ArticleProcessor {
             }
         }
 
-        // calculate vocabulary richness
         double vocabRichness = uniqueWords.size() / (double) wordCount;
-
-        // return  analysis object
         return new ArticleAnalysis(processedText.toString().trim(), wordCount, sentenceCount, words, frequencies, sentimentScore, vocabRichness);
     }
-    // nethod to compare multiple articles
+
+    // Compare multiple articles
     public void compareArticles(String[] filePaths) throws FileNotFoundException {
         List<ArticleAnalysis> analyses = new ArrayList<>();
         for (String filePath : filePaths) {
             analyses.add(analyzeArticle(filePath));
         }
 
-        // richest vocabulary and display all analysis results
         ArticleAnalysis richestVocabArticle = analyses.get(0);
         for (ArticleAnalysis analysis : analyses) {
             if (analysis.getVocabRichness() > richestVocabArticle.getVocabRichness()) {
                 richestVocabArticle = analysis;
             }
-            System.out.println("article analysis:");
+            System.out.println("Article Analysis:");
             analysis.displayResults();
             System.out.println();
         }
 
-        System.out.println("article with the richest vocabulary:");
+        System.out.println("Article with the Richest Vocabulary:");
         richestVocabArticle.displayResults();
     }
+
+    // Main method with User Interface
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Welcome to the Article Processor!");
+
         try {
             ArticleProcessor processor = new ArticleProcessor(
                     "/Users/a/Downloads/stopwords.txt",
                     "/Users/a/Desktop/sentiment.txt"
             );
 
-            // process multiple articles
-            processor.compareArticles(new String[]{
-                    "/Users/a/Desktop/Articles/article1.txt",
-                    "/Users/a/Desktop/Articles/article2.txt",
-                    "/Users/a/Desktop/Articles/article3.txt",
+            boolean running = true;
+            while (running) {
+                System.out.println("\nMenu:");
+                System.out.println("1. Analyze Articles in a Directory");
+                System.out.println("2. Add and Analyze a New Article");
+                System.out.println("3. Exit");
+                System.out.print("Choose an option: ");
 
-            });
+                int choice = scanner.nextInt();
+                scanner.nextLine(); // Consume newline
 
+                switch (choice) {
+                    case 1:
+                        System.out.print("Enter the directory path: ");
+                        String dirPath = scanner.nextLine();
+                        File dir = new File(dirPath);
+                        if (dir.isDirectory()) {
+                            String[] files = Arrays.stream(dir.listFiles())
+                                    .filter(file -> file.getName().endsWith(".txt"))
+                                    .map(File::getAbsolutePath)
+                                    .toArray(String[]::new);
+                            processor.compareArticles(files);
+                        } else {
+                            System.out.println("Invalid directory path.");
+                        }
+                        break;
+
+                    case 2:
+                        System.out.print("Enter the article file path: ");
+                        String articlePath = scanner.nextLine();
+                        File articleFile = new File(articlePath);
+                        if (articleFile.exists() && articleFile.isFile()) {
+                            ArticleAnalysis analysis = processor.analyzeArticle(articleFile.getAbsolutePath());
+                            analysis.displayResults();
+                        } else {
+                            System.out.println("Invalid file path.");
+                        }
+                        break;
+
+                    case 3:
+                        running = false;
+                        System.out.println("Goodbye!");
+                        break;
+
+                    default:
+                        System.out.println("Invalid option. Please try again.");
+                }
+            }
         } catch (FileNotFoundException e) {
-            System.out.println("file not found: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 }
 
-//  class to store and display analysis results
+// Class to store and display analysis results
 class ArticleAnalysis {
     private String processedText;
     private int wordCount;
@@ -160,13 +204,13 @@ class ArticleAnalysis {
     }
 
     public void displayResults() {
-        System.out.println("word count: " + wordCount);
-        System.out.println("sentence count: " + sentenceCount);
-        System.out.println("vocabulary richness: " + vocabRichness);
-        System.out.println("word frequencies (sorted): ");
+        System.out.println("Word Count: " + wordCount);
+        System.out.println("Sentence Count: " + sentenceCount);
+        System.out.println("Vocabulary Richness: " + vocabRichness);
+        System.out.println("Word Frequencies (Sorted):");
         for (int i = 0; i < words.size(); i++) {
             System.out.println(words.get(i) + ": " + frequencies.get(i));
         }
-        System.out.println("sentiment Score: " + sentimentScore);
+        System.out.println("Sentiment Score: " + sentimentScore);
     }
 }
