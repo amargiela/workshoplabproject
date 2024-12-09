@@ -3,7 +3,7 @@
 
 ## Overview
 
-The **ArticleProcessor** is a Java program designed to process text articles by removing stop words, counting words and sentences, calculating word frequencies, performing sentiment analysis, and measuring vocabulary richness. It can compare multiple articles to highlight differences in vocabulary richness, word frequency, and sentiment.
+The **ArticleProcessor** is a Java program designed to process text articles by removing stop words, counting words and sentences, calculating word frequencies, performing sentiment analysis, and measuring vocabulary richness. It can compare multiple articles to highlight differences in vocabulary richness, word frequency, and sentiment. Users can interact with the program via a text-based interface to analyze directories or add new articles dynamically.
 
 ## Features
 
@@ -14,6 +14,7 @@ The **ArticleProcessor** is a Java program designed to process text articles by 
 - **Sentiment Analysis**: Calculates a sentiment score based on a lexicon of words with associated sentiment values.
 - **Vocabulary Richness**: Measures vocabulary richness as the unique-to-total word ratio.
 - **Multiple Article Comparison**: Compares multiple articles on vocabulary richness, word frequency, and sentiment.
+- **Interactive User Interface**: Provides a menu for analyzing directories or adding new articles dynamically.
 
 ## Prerequisites
 
@@ -60,91 +61,83 @@ anger,-2
 
 Create or obtain text files named `article1.txt`, `article2.txt`, etc., containing the articles to process and compare.
 
-### 5. Update File Paths in the Code
+### 5. Run the Program with Interactive Interface
 
-In the `main` method of `ArticleProcessor.java`, update the file paths to point to your `stopwords.txt`, `sentiment.txt`, and article files:
-
-```java
-public static void main(String[] args) {
-    try {
-        ArticleProcessor processor = new ArticleProcessor(
-                "/path/to/stopwords.txt",
-                "/path/to/sentiment.txt"
-        );
-        
-        processor.compareArticles(new String[]{
-                "/path/to/article1.txt",
-                "/path/to/article2.txt"
-        });
-        
-    } catch (FileNotFoundException e) {
-        System.out.println("File not found: " + e.getMessage());
-    }
-}
-```
-
-### 6. Compile the Program
-
-Open a terminal or command prompt, navigate to the directory containing `ArticleProcessor.java`, and run:
+Open a terminal or command prompt, navigate to the directory containing `ArticleProcessor.java`, and compile:
 
 ```bash
 javac ArticleProcessor.java
 javac ArticleAnalysis.java
 ```
 
-### 7. Run the Program
-
-After successful compilation, run the program using:
+Run the program:
 
 ```bash
 java ArticleProcessor
 ```
 
-## Example Output
+When the program starts, you can choose from the following menu options:
+1. Analyze all articles in a directory.
+2. Add and analyze a single new article.
+3. Exit the program.
 
-```
-Article Analysis:
-Processed text: example text after processing without stop words
-Word count: 150
-Sentence count: 10
-Vocabulary richness: 0.67
-Word frequencies (sorted):
-example: 15
-text: 12
-processing: 8
-without: 5
-stop: 3
-words: 2
-Sentiment score: 4
+### Example Input and Output
 
-Article with the richest vocabulary:
-Processed text: another example text ...
-Word count: 130
-Sentence count: 8
-Vocabulary richness: 0.75
-```
+- Input for **Option 1**:
+  ```
+  Enter the directory path: /Users/a/Desktop/Articles/
+  ```
+
+- Input for **Option 2**:
+  ```
+  Enter the article file path: /Users/a/Desktop/new_article.txt
+  ```
+
+- Example Output:
+  ```
+  Word Count: 905
+  Sentence Count: 239
+  Vocabulary Richness: 0.726
+  Word Frequencies (Sorted):
+  campaign: 13
+  harris: 10
+  trump: 9
+  ...
+  Sentiment Score: 28
+  ```
+
+---
 
 ## How It Works
 
-1. **Loading Stop Words and Sentiment Lexicon**:
-   - The constructor `ArticleProcessor(String stopWordsFilePath, String sentimentLexiconFilePath)` reads the stop words and sentiment words from specified files and stores them in a `List<String>` and `Map<String, Integer>`.
+### 1. Loading Stop Words and Sentiment Lexicon
+The constructor `ArticleProcessor(String stopWordsFilePath, String sentimentLexiconFilePath)` reads the stop words and sentiment words from specified files and stores them in a `List<String>` and `Map<String, Integer>`.
 
-2. **Processing the Article**:
-   - The method `analyzeArticle(String filePath)` reads the article file line by line.
-   - Converts all text to lowercase, splits it into words, removes punctuation, and filters out stop words.
-   - Counts words, sentences, and calculates word frequencies, sentiment score, and vocabulary richness.
+### 2. Analyzing Articles
+The method `analyzeArticle(String filePath)` processes a single article by:
+- Removing stop words.
+- Calculating word and sentence counts.
+- Sorting word frequencies.
+- Calculating sentiment scores and vocabulary richness.
 
-3. **Comparing Articles**:
-   - The method `compareArticles(String[] filePaths)` processes multiple articles, compares vocabulary richness, identifies the most repeated words, and calculates sentiment scores for each article.
+### 3. Comparing Articles
+The method `compareArticles(String[] filePaths)` analyzes multiple articles, comparing their vocabulary richness, sentiment scores, and word frequencies. It identifies and displays the article with the richest vocabulary.
 
-4. **Output**:
-   - Prints the processed text, word count, sentence count, vocabulary richness, word frequencies, and sentiment score for each article. Highlights the article with the highest vocabulary richness.
+### 4. Interactive Interface
+Users can dynamically:
+- Analyze all articles in a specified directory.
+- Add and process a single new article.
 
 ## Notes
 
-- **File Paths**: Ensure the file paths provided in the `main` method are correct and accessible by the program.
-- **Sorting**: A simple sorting method is used for word frequencies; for large datasets, consider more efficient sorting algorithms.
-- **Analysis Method**: Vocabulary richness is calculated as the unique-to-total word ratio, and sentiment score sums values from the sentiment lexicon.
+- Ensure all file paths in the `main` method are correct and accessible.
+- Articles should be plain `.txt` files for proper processing.
+- Vocabulary richness is calculated as the unique-to-total word ratio.
+
+## Troubleshooting
+
+- **FileNotFoundException**: If encountered, verify that the specified file paths exist and are correctly formatted.
+- **Encoding Issues**: Save text files with UTF-8 encoding to avoid character recognition problems.
 
 ## Dependencies
 
@@ -156,11 +149,6 @@ Vocabulary richness: 0.75
   - `java.util.ArrayList`
   - `java.util.Map`
   - `java.util.HashMap`
-
-## Troubleshooting
-
-- **FileNotFoundException**: If you encounter this exception, check that the file paths are correct and that the files exist.
-- **Character Encoding**: Ensure that your text files are saved with the correct encoding (e.g., UTF-8) to avoid character recognition issues.
 
 ## License
 
